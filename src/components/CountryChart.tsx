@@ -60,7 +60,7 @@ const CountryChart: React.FC<ChartProps> = ({ data, title }) => {
       options={chartData.options}
       series={chartData.series}
       type="bar"
-      width='100%'
+      width="100%"
       height={320}
     />
   );

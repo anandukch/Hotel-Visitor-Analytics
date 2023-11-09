@@ -42,15 +42,14 @@ const App: React.FC = () => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Start Date"
-            value={startDate}
+            value={null}
             onChange={(date) => setStartDate(date || "")}
             slotProps={{ textField: { size: "small" } }}
           />
           <div className="date-seperator">to</div>
           <DatePicker
-            defaultValue="11/09/2023"
             label="End Date"
-            value={endDate}
+            value={null}
             onChange={(date) => setEndDate(date || "")}
             slotProps={{ textField: { size: "small" } }}
           />
