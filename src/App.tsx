@@ -4,6 +4,9 @@ import SparklineChart from "./test";
 import TimeSeriesChart from "./components/TimeChart";
 import CountryChart from "./components/CountryChart";
 import { convertDate } from "./utils/date";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const App: React.FC = () => {
   const [startDate, setStartDate] = useState("");
@@ -13,7 +16,7 @@ const App: React.FC = () => {
   const handleDateFilter = () => {
     const formattedStartDate = convertDate(startDate);
     const formattedEndDate = convertDate(endDate);
-
+    
     // date range filtering logic
     const filtered = Hoteldata.filter((item) => {
       const currentDate = `${item.arrival_date_year}-${item.arrival_date_month}-${item.arrival_date_day_of_month}`;
@@ -27,8 +30,20 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          label="Start Date"
+          value={startDate}
+          onChange={(date) => setStartDate(date || "")}
+        />
+        <DatePicker
+          label="End Date"
+          value={endDate}
+          onChange={(date) => setEndDate(date || "")}
+        />
+      </LocalizationProvider>
       {/* Date range filter */}
-      <label htmlFor="startDate">Start Date:</label>
+      {/* <label htmlFor="startDate">Start Date:</label>
       <input
         type="date"
         id="startDate"
@@ -42,7 +57,7 @@ const App: React.FC = () => {
         id="endDate"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
-      />
+      /> */}
 
       <button onClick={handleDateFilter}>Apply Date Range Filter</button>
 
