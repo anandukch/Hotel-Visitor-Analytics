@@ -1,45 +1,37 @@
-// CountryChart.tsx
-import React, { useEffect, useState } from 'react';
-import Chart from 'react-apexcharts';
-import { HotelDataType } from '../utils/type';
+import React, { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
+import { ChartOptions, ChartProps } from "../utils/type";
 
-interface CountryChartProps {
-  data:HotelDataType[];
-}
-
-const CountryChart: React.FC<CountryChartProps> = ({ data }) => {
-  const [chartData, setChartData] = useState<{
+const CountryChart: React.FC<ChartProps> = ({ data, title }) => {
+  const [chartData, setChartData] = useState<ChartOptions>({
     options: {
       chart: {
-        id: string;
-      };
-      xaxis: {
-        categories: string[];
-      };
-    };
-    series: {
-      name: string;
-      data: number[];
-    }[];
-  }>({
-    options: {
-      chart: {
-        id: 'apexchart-country-example',
+        id: "apexchart-country-example",
       },
       xaxis: {
         categories: [],
       },
+      title: {
+        text: title,
+      },
+      dataLabels: {
+        style: {
+          colors: ["rgba(0, 0, 0, 0.87)"],
+        },
+      },
     },
     series: [
       {
-        name: 'Number of Visitors',
+        name: "Number of Visitors",
         data: [],
       },
     ],
   });
 
   useEffect(() => {
-    const uniqueCountries = Array.from(new Set(data.map((item) => item.country)));
+    const uniqueCountries = Array.from(
+      new Set(data.map((item) => item.country))
+    );
 
     const visitorsPerCountry = uniqueCountries.map((country) => {
       const visitorsInCountry = data.filter((item) => item.country === country);
@@ -51,16 +43,12 @@ const CountryChart: React.FC<CountryChartProps> = ({ data }) => {
 
     setChartData({
       options: {
-        chart: {
-          id: 'apexchart-country-example',
-        },
-        xaxis: {
-          categories: uniqueCountries,
-        },
+        ...chartData.options,
+        xaxis: { ...chartData.options.xaxis, categories: uniqueCountries },
       },
       series: [
         {
-          name: 'Number of Visitors',
+          name: "Number of Visitors",
           data: visitorsPerCountry,
         },
       ],
@@ -72,7 +60,7 @@ const CountryChart: React.FC<CountryChartProps> = ({ data }) => {
       options={chartData.options}
       series={chartData.series}
       type="bar"
-      width={500}
+      width='100%'
       height={320}
     />
   );

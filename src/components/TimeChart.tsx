@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import Chart from 'react-apexcharts';
-import { HotelDataType } from '../utils/type';
+import React, { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
+import { ChartOptions, ChartProps } from "../utils/type";
+import { useMediaQuery } from "@mui/material";
 
-interface TimeSeriesChartProps {
-  data:HotelDataType[];
-}
+const TimeSeriesChart: React.FC<ChartProps> = ({ data, title }) => {
+  const matches = useMediaQuery("(min-width:600px)");
+  console.log(matches);
+  
 
-const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({ data }) => {
-  const [chartData, setChartData] = useState<{
+  const [chartData, setChartData] = useState<ChartOptions>({
     options: {
       chart: {
-        id: string;
-      };
-      xaxis: {
-        categories: string[];
-      };
-    };
-    series: {
-      name: string;
-      data: number[];
-    }[];
-  }>({
-    options: {
-      chart: {
-        id: 'apexchart-timeseries-example',
+        id: "apexchart-timeseries-example",
       },
       xaxis: {
         categories: [],
       },
+      title: {
+        text: title,
+      },
     },
     series: [
       {
-        name: 'Number of Visitors',
+        name: "Number of Visitors",
         data: [],
       },
     ],
@@ -62,15 +53,18 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({ data }) => {
     setChartData({
       options: {
         chart: {
-          id: 'apexchart-timeseries-example',
+          id: "apexchart-timeseries-example",
         },
         xaxis: {
           categories: uniqueDates,
         },
+        title: {
+          text: title,
+        },
       },
       series: [
         {
-          name: 'Number of Visitors',
+          name: "Number of Visitors",
           data: visitorsPerDay,
         },
       ],
@@ -82,7 +76,7 @@ const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({ data }) => {
       options={chartData.options}
       series={chartData.series}
       type="line"
-      width={500}
+      width='100%'
       height={320}
     />
   );

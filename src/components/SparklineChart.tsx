@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Chart from 'react-apexcharts';
-import { HotelDataType } from '../utils/type';
+import React, { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
+import { ChartProps } from "../utils/type";
 
-interface SparklineChartProps {
-  data:HotelDataType[];
-  title: string;
-}
-
-const SparklineChart: React.FC<SparklineChartProps> = ({ data, title }) => {
+const SparklineChart: React.FC<ChartProps> = ({ data, title, type }) => {
   const [sparklineData, setSparklineData] = useState<{
     options: {
       chart: {
@@ -16,6 +11,9 @@ const SparklineChart: React.FC<SparklineChartProps> = ({ data, title }) => {
           enabled: boolean;
         };
       };
+      title: {
+        text: string;
+      };
     };
     series: {
       data: number[];
@@ -23,10 +21,13 @@ const SparklineChart: React.FC<SparklineChartProps> = ({ data, title }) => {
   }>({
     options: {
       chart: {
-        id: `${title.toLowerCase().replace(' ', '-')}-sparkline`,
+        id: `${title.toLowerCase().replace(" ", "-")}-sparkline`,
         sparkline: {
           enabled: true,
         },
+      },
+      title: {
+        text: title,
       },
     },
     series: [
@@ -52,34 +53,30 @@ const SparklineChart: React.FC<SparklineChartProps> = ({ data, title }) => {
           `${item.arrival_date_year}-${item.arrival_date_month}-${item.arrival_date_day_of_month}` ===
           date
       );
-      return visitorsOnDate.reduce(
-        (total, item) => total + item.adults + item.children + item.babies,
-        0
-      );
+
+      return type == "adults"
+        ? visitorsOnDate.reduce((total, item) => total + item.adults, 0)
+        : visitorsOnDate.reduce((total, item) => total + item.children, 0);
     });
 
-    setSparklineData({
-      options: {
-        chart: {
-          id: `${title.toLowerCase().replace(' ', '-')}-sparkline`,
-          sparkline: {
-            enabled: true,
-          },
-        },
-      },
+    setSparklineData((prevState) => ({
+      ...prevState,
       series: [
         {
           data: totalVisitorsPerDay,
         },
       ],
-    });
+    }));
   }, [data, title]);
 
   return (
-    <div>
-      <h3>{title}</h3>
-      <Chart options={sparklineData.options} series={sparklineData.series} type="line" width={200} height={80} />
-    </div>
+    <Chart
+      options={sparklineData.options}
+      series={sparklineData.series}
+      type="line"
+      width='100%'
+      height={160}
+    />
   );
 };
 
