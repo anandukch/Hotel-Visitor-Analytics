@@ -1,159 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import Chart from 'react-apexcharts';
-import Hoteldata from './data/hotel.json';
-import SparklineChart from './test';
-import Charttest from './test1';
-import TimeSeriesChart from './components/TimeChart';
-import CountryChart from './components/CountryChart';
-
-interface VisitorData {
-  arrival_date_year: number;
-  arrival_date_month: string;
-  arrival_date_day_of_month: number;
-  adults: number;
-  children: number;
-  babies: number;
-  country: string;
-}
+import React, { useState } from "react";
+import Hoteldata from "./data/hotel.json";
+import SparklineChart from "./test";
+import TimeSeriesChart from "./components/TimeChart";
+import CountryChart from "./components/CountryChart";
+import { convertDate } from "./utils/date";
 
 const App: React.FC = () => {
-  const [timeSeriesChartData, setTimeSeriesChartData] = useState<{
-    options: {
-      chart: {
-        id: string;
-      };
-      xaxis: {
-        categories: string[];
-      };
-    };
-    series: {
-      name: string;
-      data: number[];
-    }[];
-  }>({
-    options: {
-      chart: {
-        id: 'apexchart-timeseries-example',
-      },
-      xaxis: {
-        categories: [],
-      },
-    },
-    series: [
-      {
-        name: 'Number of Visitors',
-        data: [],
-      },
-    ],
-  });
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [filteredData, setFilteredData] = useState(Hoteldata);
 
-  const [countryChartData, setCountryChartData] = useState<{
-    options: {
-      chart: {
-        id: string;
-      };
-      xaxis: {
-        categories: string[];
-      };
-    };
-    series: {
-      name: string;
-      data: number[];
-    }[];
-  }>({
-    options: {
-      chart: {
-        id: 'apexchart-country-example',
-      },
-      xaxis: {
-        categories: [],
-      },
-    },
-    series: [
-      {
-        name: 'Number of Visitors',
-        data: [],
-      },
-    ],
-  });
+  const handleDateFilter = () => {
+    const formattedStartDate = convertDate(startDate);
+    const formattedEndDate = convertDate(endDate);
 
-  useEffect(() => {
-    const data: VisitorData[] = Hoteldata;
-
-    // Time Series Chart Data
-    const uniqueDates = Array.from(
-      new Set(
-        data.map(
-          (item) =>
-            `${item.arrival_date_year}-${item.arrival_date_month}-${item.arrival_date_day_of_month}`
-        )
-      )
-    );
-
-    const visitorsPerDay = uniqueDates.map((date) => {
-      const visitorsOnDate = data.filter(
-        (item) =>
-          `${item.arrival_date_year}-${item.arrival_date_month}-${item.arrival_date_day_of_month}` ===
-          date
-      );
-      return visitorsOnDate.reduce(
-        (total, item) => total + item.adults + item.children + item.babies,
-        0
+    // date range filtering logic
+    const filtered = Hoteldata.filter((item) => {
+      const currentDate = `${item.arrival_date_year}-${item.arrival_date_month}-${item.arrival_date_day_of_month}`;
+      return (
+        currentDate >= formattedStartDate && currentDate <= formattedEndDate
       );
     });
 
-    setTimeSeriesChartData({
-      options: {
-        chart: {
-          id: 'apexchart-timeseries-example',
-        },
-        xaxis: {
-          categories: uniqueDates,
-        },
-      },
-      series: [
-        {
-          name: 'Number of Visitors',
-          data: visitorsPerDay,
-        },
-      ],
-    });
-
-    // Country Chart Data
-    const uniqueCountries = Array.from(new Set(data.map((item) => item.country)));
-
-    const visitorsPerCountry = uniqueCountries.map((country) => {
-      const visitorsInCountry = data.filter((item) => item.country === country);
-      return visitorsInCountry.reduce(
-        (total, item) => total + item.adults + item.children + item.babies,
-        0
-      );
-    });
-
-    setCountryChartData({
-      options: {
-        chart: {
-          id: 'apexchart-country-example',
-        },
-        xaxis: {
-          categories: uniqueCountries,
-        },
-      },
-      series: [
-        {
-          name: 'Number of Visitors',
-          data: visitorsPerCountry,
-        },
-      ],
-    });
-  }, []);
+    setFilteredData(filtered);
+  };
 
   return (
     <div>
-      <TimeSeriesChart data={Hoteldata} />
-      <CountryChart data={Hoteldata} />
-      <SparklineChart data={Hoteldata} title="Total Visitors Per Day" />
-      <SparklineChart data={Hoteldata} title="Total Visitors Per Day" />
+      {/* Date range filter */}
+      <label htmlFor="startDate">Start Date:</label>
+      <input
+        type="date"
+        id="startDate"
+        value={startDate}
+        onChange={(e) => setStartDate(e.target.value)}
+      />
+
+      <label htmlFor="endDate">End Date:</label>
+      <input
+        type="date"
+        id="endDate"
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+      />
+
+      <button onClick={handleDateFilter}>Apply Date Range Filter</button>
+
+      {/* Render charts with filtered data */}
+      <TimeSeriesChart data={filteredData} />
+      <CountryChart data={filteredData} />
+      <SparklineChart data={filteredData} title="Total Visitors Per Day" />
+      <SparklineChart data={filteredData} title="Total Visitors Per Day" />
     </div>
   );
 };
