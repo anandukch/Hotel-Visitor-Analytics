@@ -2,6 +2,8 @@
 
 A data visualization tool for hotel visitor analytics, providing insights into visitor demographics and arrival patterns. The tool displays data in various chart formats, allowing users to filter and analyze visitor statistics.
 
+<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/71365444/282014304-ca32ded6-12d2-422d-a134-14418ee8cd25.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231110%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231110T091656Z&X-Amz-Expires=300&X-Amz-Signature=333db777acda8990df8bda64234bfe86c9f7a1c7d07ae63e65fed5009e71ac5f&X-Amz-SignedHeaders=host&actor_id=71365444&key_id=0&repo_id=716484995"/>
+
 ## Features
 
 - **Date Range Filtering:** Filter visitor data by specific date ranges.

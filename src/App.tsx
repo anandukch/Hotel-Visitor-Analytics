@@ -94,12 +94,12 @@ const App: React.FC = () => {
         <div className="chartContainer">
           <SparklineChart
             data={filteredData}
-            title="Total Adults Per Day"
+            title="Total number of adult visitors"
             type="adults"
           />
         </div>
         <div className="chartContainer">
-          <SparklineChart data={filteredData} title="Total Children Per Day" />
+          <SparklineChart data={filteredData} title="Total number of children visitors" />
         </div>
       </div>
     </div>
