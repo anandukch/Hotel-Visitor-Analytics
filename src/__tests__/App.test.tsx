@@ -10,3 +10,4 @@ test("Renders the main page", () => {
     render(<App />)
     expect(true).toBeTruthy()
 })
+
