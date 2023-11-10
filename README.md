@@ -15,7 +15,7 @@ Waterdip is a data visualization tool for hotel visitor analytics, providing ins
    git clone https://github.com/anandukch/Hotel-Visitor-Analytics
 2. **Install Dependencies:**
    ```bash
-   cd waterdip
+   cd Hotel-Visitor-Analytics
    npm install
 3. **Run the App:**
    ```bash
