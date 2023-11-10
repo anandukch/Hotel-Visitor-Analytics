@@ -1,6 +1,6 @@
 # Hotel Visitor Analytics
 
-Waterdip is a data visualization tool for hotel visitor analytics, providing insights into visitor demographics and arrival patterns. The tool displays data in various chart formats, allowing users to filter and analyze visitor statistics.
+A data visualization tool for hotel visitor analytics, providing insights into visitor demographics and arrival patterns. The tool displays data in various chart formats, allowing users to filter and analyze visitor statistics.
 
 ## Features
 
