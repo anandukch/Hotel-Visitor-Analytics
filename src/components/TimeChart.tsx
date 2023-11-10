@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { ChartOptions, ChartProps } from "../utils/type";
-import { useMediaQuery } from "@mui/material";
+// import { useMediaQuery } from "@mui/material";
 
 const TimeSeriesChart: React.FC<ChartProps> = ({ data, title }) => {
-  const matches = useMediaQuery("(min-width:600px)");
-  console.log(matches);
+  // const matches = useMediaQuery("(min-width:600px)");
+  // console.log(matches);
   
 
   const [chartData, setChartData] = useState<ChartOptions>({
